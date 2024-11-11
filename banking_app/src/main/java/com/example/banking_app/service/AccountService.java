@@ -2,9 +2,6 @@ package com.example.banking_app.service;
 
 import java.util.List;
 import java.util.Optional;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +12,17 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class AccountService {
+
+    String s="Account not found";
+
+    private final AccountDao accountDao;
+
     @Autowired
-    AccountDao accountDao;
+    public AccountService(AccountDao accountDao){
+        this.accountDao=accountDao;
+    }
+
+
     public Account addAccount(Account account) {
         return accountDao.save(account);
     }
@@ -29,7 +35,7 @@ public class AccountService {
     public Account deposit(Long id, double amount) {
         Account account=accountDao
                 .findById(id)
-                .orElseThrow(()->new RuntimeException("Account not found"));
+                .orElseThrow(()->new RuntimeException(s));
         double total= account.getBalance()+amount;
         account.setBalance(total);
         return accountDao.save(account);
@@ -38,7 +44,7 @@ public class AccountService {
     public Account withdraw(Long id, double amount) {
         Account account=accountDao
                 .findById(id)
-                .orElseThrow(()->new RuntimeException("Account not found"));
+                .orElseThrow(()->new RuntimeException(s));
         if(account.getBalance()<amount){
             throw new RuntimeException("Insufficient Amount");
         }
@@ -72,7 +78,7 @@ public class AccountService {
     public Account updateAccount(Long id, Account account) {
         Account account1=accountDao
                 .findById(id)
-                .orElseThrow(()->new RuntimeException("Account not found"));
+                .orElseThrow(()->new RuntimeException(s));
         account1.setAccountHolderName(account.getAccountHolderName());
         account1.setBalance(account.getBalance());
         return accountDao.save(account1);

@@ -3,8 +3,8 @@ package com.example.banking_app.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+
 
 @Data
 //@Table(name = "accounts")

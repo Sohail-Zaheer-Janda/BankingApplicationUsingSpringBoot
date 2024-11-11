@@ -15,8 +15,15 @@ import java.util.Optional;
 @RequestMapping("account")
 public class AccountController {
 
+    private final AccountService accountService;
+
     @Autowired
-    AccountService accountService;
+    public AccountController( AccountService accountService){
+        this.accountService=accountService;
+    }
+
+
+
     @GetMapping("getAll")
     public ResponseEntity<List<Account>> getAllAccounts(){
         return new ResponseEntity<>(accountService.getAllAccounts(),HttpStatus.OK);
@@ -53,7 +60,7 @@ public class AccountController {
     @DeleteMapping("deleteByName/{accountHolderName}")
     public ResponseEntity<String> deleteAccountByName(@PathVariable String accountHolderName){
         accountService.deleteAccountByName(accountHolderName);
-        return new ResponseEntity<>("deleted account succesfully",HttpStatus.OK);
+        return new ResponseEntity<>("deleted account successfully",HttpStatus.OK);
     }
     @DeleteMapping("deleteAll")
     public ResponseEntity<String> deleteAllAccounts(){
